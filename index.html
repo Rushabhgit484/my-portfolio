@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rushabh Wankhede | Creative Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@900&family=Architects+Daughter&display=swap');
+
+        :root {
+            --yellow: #FFD700;
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray: #333333;
+            --transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Public Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        svg.filter-defs { height: 0; width: 0; position: absolute; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 5px 15px;
+            font-weight: 900;
+            border: 2px solid var(--black);
+            filter: url(#rough);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--yellow); }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .hero-left {
+            flex: 1.2;
+            background-color: var(--white);
+            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 8% 60px;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+            z-index: 10;
+            color: var(--black);
+        }
+
+        .sketch-line {
+            font-family: 'Architects Daughter', cursive;
+            font-size: clamp(18px, 2vw, 22px);
+            margin-bottom: 5px;
+            color: var(--gray);
+            transition: text-decoration 0.3s ease;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(45px, 7vw, 85px);
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 10%;
+            width: 0;
+            height: 40%;
+            background: var(--yellow);
+            z-index: -1;
+            filter: url(#rough);
+            transition: width 0.8s ease 0.4s;
+        }
+
+        .reveal.active h1 span::after {
+            width: 110%;
+            left: -5%;
+        }
+
+        .hero-right {
+            flex: 1;
+            background-color: var(--black);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .image-frame {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 4 / 5;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            filter: url(#rough);
+            overflow: hidden;
+            z-index: 5;
+            transition: transform 0.1s ease;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content Sections */
+        section.content-sec {
+            padding: 100px 10%;
+            background: var(--black);
+        }
+
+        .sec-title {
+            font-size: 40px;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            border-left: 10px solid var(--yellow);
+            padding-left: 20px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: #111;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #222;
+            transition: 0.3s;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-card:hover {
+            border-color: var(--yellow);
+            background: var(--yellow);
+            color: var(--black);
+            transform: translateY(-10px) rotate(2deg);
+        }
+
+        .project-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: 0.4s;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            border-color: var(--yellow);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 220px;
+            background: #222;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid #333;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-img img {
+            transform: scale(1.1);
+        }
+
+        .project-info { padding: 25px; }
+        .project-info h3 { color: var(--yellow); margin-bottom: 10px; font-size: 22px; }
+        .project-info p { font-size: 14px; line-height: 1.6; color: #ccc; }
+
+        /* Get In Touch Section */
+        .contact-box {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            border: 2px dashed var(--yellow);
+            filter: url(#rough);
+        }
+
+        .contact-btn {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 20px 40px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 24px;
+            display: inline-block;
+            margin-top: 30px;
+            transition: 0.3s;
+            border: 3px solid var(--black);
+        }
+
+        @keyframes jitter {
+            0% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(-2px, 1px) rotate(-1deg); }
+            50% { transform: translate(2px, -1px) rotate(1deg); }
+            75% { transform: translate(-1px, -2px) rotate(-0.5deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .contact-btn:hover {
+            animation: jitter 0.2s infinite;
+            box-shadow: 10px 10px 0px var(--white);
+        }
+
+        .social-links {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Architects Daughter', cursive;
+            font-size: 18px;
+        }
+
+        .social-links a:hover { color: var(--yellow); }
+
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; }
+            .hero-right { order: 1; padding-top: 120px; width: 100%; }
+            .hero-left { order: 2; width: 100%; clip-path: none; text-align: center; align-items: center; padding: 60px 20px; }
+            .nav-links { display: none; }
+            .image-frame { max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg class="filter-defs">
+        <defs>
+            <filter id="rough">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+            </filter>
+        </defs>
+    </svg>
+
+    <nav>
+        <div class="logo">RW</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="hero reveal" id="home">
+        <section class="hero-left">
+            <div class="hero-content">
+                <p class="sketch-line" id="dynamic-text">/ scribbling lines of code</p>
+                <h1>Rushabh<br><span>Wankhede</span></h1>
+                <p style="margin: 20px 0; font-weight: 900; letter-spacing: 1px;">UI/UX DESIGNER & WEB ARCHITECT</p>
+                <a href="#contact" style="background: #000; color: #fff; padding: 15px 30px; text-decoration: none; font-weight: 900; display: inline-block;">GET IN TOUCH</a>
+            </div>
+        </section>
+
+        <section class="hero-right">
+            <div class="image-frame" id="parallax-frame">
+                <img src="1000094667-removebg-preview-removebg-preview.png" alt="Rushabh" class="profile-img">
+            </div>
+            <p style="margin-top: 15px; font-family: 'Architects Daughter'; opacity: 0.5;">Let's Create</p>
+        </section>
+    </main>
+
+    <section class="content-sec" id="skills">
+        <h2 class="sec-title reveal">Tech Stack</h2>
+        <div class="skills-grid">
+            <div class="skill-card reveal">HTML5</div>
+            <div class="skill-card reveal">CSS3</div>
+            <div class="skill-card reveal">JavaScript</div>
+            <div class="skill-card reveal">PHP</div>
+            <div class="skill-card reveal">Java</div>
+            <div class="skill-card reveal">SQL</div>
+        </div>
+    </section>
+
+    <section class="content-sec" id="work" style="background: #050505;">
+        <h2 class="sec-title reveal">Completed Projects</h2>
+        <div class="project-container">
+            <a href="https://example-ngo-link.com" target="_blank" class="project-link">
+                <div class="project-card reveal">
+                    <div class="project-img"><img src="Screenshot 2026-02-26 182832.png" alt="NGO"></div>
+                    <div class="project-info">
+                        <h3>Mahima NGO</h3>
+                        <p>Empowering women and tackling unemployment through digital presence.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://sites.google.com/view/all-in-one-websitecourse/home" target="_blank" class="project-link">
+                <div class="project-card reveal">
+                    <div class="project-img"><img src="all in one website .png" alt="AI Tools"></div>
+                    <div class="project-info">
+                        <h3>All in One AI</h3>
+                        <p>A curated directory for the world's most powerful AI tools.</p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://rushabhgit484.github.io/Ritu-enterprises/" target="_blank" class="project-link">
+                <div class="project-card reveal">
+                    <div class="project-img"><img src="ritu entri.png" alt="E-Commerce"></div>
+                    <div class="project-info">
+                        <h3>Ritu Enterprises</h3>
+                        <p>Wholesale Medicine and Medical Equipment E-commerce solution.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="content-sec" id="running" style="background: #0a0a0a;">
+        <h2 class="sec-title reveal">Current Ventures</h2>
+        <div class="project-container">
+            <div class="project-card reveal">
+                <div class="project-img"><img src="sudarshan.jpeg" alt="Turbine"></div>
+                <div class="project-info">
+                    <h3>Project Sudarshan</h3>
+                    <p>Portable Vertical Axis Wind Turbine for sustainable off-grid energy.</p>
+                </div>
+            </div>
+            <div class="project-card reveal">
+                <div class="project-img"><img src="divine.jpeg" alt="3D Products"></div>
+                <div class="project-info">
+                    <h3>Divine Creation</h3>
+                    <p>Customized 3D printed accessories and gifts. We make it happen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-sec" id="contact" style="background: #050505;">
+        <div class="contact-box reveal">
+            <p class="sketch-line">/ ready for the next big thing?</p>
+            <h2 style="font-size: clamp(30px, 5vw, 60px); text-transform: uppercase;">Let's work together.</h2>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=rushabhwankhede97@gmail.com" target="_blank" class="contact-btn">SAY HELLO</a>
+            
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/rushabh-wankhede-507754285" target="_blank">LinkedIn</a>
+                <a href="https://github.com/Rushabhgit484" target="_blank">GitHub</a>
+                <a href="https://www.instagram.com/ruahabh_wankhede" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 50px; text-align: center; border-top: 1px solid #222;">
+        <p style="font-family: 'Architects Daughter';">&copy; 2026 Rushabh Wankhede | We make it happen.</p>
+    </footer>
+
+    <script>
+        // Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Parallax Frame Effect
+        const frame = document.getElementById('parallax-frame');
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 900) {
+                const x = (window.innerWidth / 2 - e.pageX) / 45;
+                const y = (window.innerHeight / 2 - e.pageY) / 45;
+                frame.style.transform = `translate(${x}px, ${y}px) rotate(${x/20}deg)`;
+            }
+        });
+
+        // Dynamic Text Scratch-Out
+        const textElement = document.getElementById('dynamic-text');
+        const roles = [
+            "/ scribbling lines of code", 
+            "/ engineering wind turbines", 
+            "/ crafting 3D designs",
+            "/ bridging tech & commerce"
+        ];
+        let index = 0;
+
+        setInterval(() => {
+            textElement.style.textDecoration = "line-through";
+            setTimeout(() => {
+                index = (index + 1) % roles.length;
+                textElement.innerText = roles[index];
+                textElement.style.textDecoration = "none";
+            }, 500);
+        }, 3500);
+    </script>
+</body>
+</html>
